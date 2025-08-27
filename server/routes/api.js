@@ -50,21 +50,14 @@ router.post("/sentences/:sentence", function (req, res) {
   });
 });
 
-// router.put("/wonder/:name", function (req, res) {
-//   console.log("Someone's trying to make a PUT request");
-//   let wonder = req.params.name;
-//   console.log(wonder);
-//   wonders.find((w) => w.name === wonder).visited = true;
-//   res.end();
-// });
-
-// router.delete("/wonder/:name", function (req, res) {
-//   console.log("Someone's trying to make a DELETE request");
-//   let wonder = req.params.name;
-//   console.log(wonder);
-//   let wondersIndex = wonders.findIndex((w) => w.name === wonder);
-//   wonders.splice(wondersIndex, 1);
-//   res.end();
-// });
+router.delete("/words/:word", function (req, res) {
+  console.log("Someone's trying to make a DELETE request");
+  let word = req.params.word;
+  if (!wordCounter[word]) {
+    throw new Error("No such word");
+  }
+  delete wordCounter[word];
+  res.end();
+});
 
 module.exports = router;
