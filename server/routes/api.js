@@ -9,12 +9,8 @@ router.get("/sanity", function (req, res) {
 
 router.get("/words/:word", function (req, res) {
   const word = req.params.word;
-  let entry;
-  if (wordCounter.size > 0) {
-    entry = wordCounter.find((w) => w.word === word);
-  }
-  if (entry) {
-    res.send({ count: entry.currentCount });
+  if (wordCounter[word]) {
+    res.send({ count: wordCounter[word] });
   } else {
     res.send({ count: 0 });
   }
@@ -23,10 +19,12 @@ router.get("/words/:word", function (req, res) {
 router.post("/words/:word", function (req, res) {
   const word = req.params.word;
   if (wordCounter[word]) {
-    res.send({ count: wordCounter[word] });
+    wordCounter[word] += 1;
   } else {
-    res.send({ count: 0 });
+    wordCounter[word] = 1;
   }
+
+  res.send({ text: "Added " + word, currentCount: wordCounter[word] });
 });
 
 // router.put("/wonder/:name", function (req, res) {
