@@ -23,8 +23,31 @@ router.post("/words/:word", function (req, res) {
   } else {
     wordCounter[word] = 1;
   }
-
   res.send({ text: "Added " + word, currentCount: wordCounter[word] });
+});
+
+router.post("/sentences/:sentence", function (req, res) {
+  const sentence = req.params.sentence;
+
+  const words = sentence.split(" ");
+
+  let numNewWords = 0;
+  let numOldWords = 0;
+
+  words.forEach((word) => {
+    if (wordCounter[word]) {
+      wordCounter[word] += 1;
+      numOldWords += 1;
+    } else {
+      wordCounter[word] = 1;
+      numNewWords += 1;
+    }
+  });
+
+  res.send({
+    text: `Added ${numNewWords} words, ${numOldWords} already existed`,
+    currentCount: -1,
+  });
 });
 
 // router.put("/wonder/:name", function (req, res) {
