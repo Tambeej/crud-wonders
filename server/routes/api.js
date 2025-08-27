@@ -9,6 +9,19 @@ router.get("/sanity", function (req, res) {
 
 router.get("/words/:word", function (req, res) {
   const word = req.params.word;
+  let entry;
+  if (wordCounter.size > 0) {
+    entry = wordCounter.find((w) => w.word === word);
+  }
+  if (entry) {
+    res.send({ count: entry.currentCount });
+  } else {
+    res.send({ count: 0 });
+  }
+});
+
+router.post("/words/:word", function (req, res) {
+  const word = req.params.word;
   if (wordCounter[word]) {
     res.send({ count: wordCounter[word] });
   } else {
